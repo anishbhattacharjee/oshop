@@ -1,3 +1,5 @@
+import { ProductService } from './product.service';
+import { CategoryService } from './category.service';
 import { AdminAuthGaurdService } from './admin-auth-gaurd.service';
 import { UserService } from './user.service';
 import { AuthGaurdService } from './auth-gaurd.service';
@@ -10,6 +12,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { RouterModule, CanActivate } from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { CustomFormsModule } from 'ng2-validation';
 
 
 import { AppComponent } from 'src/app/app.component';
@@ -25,6 +28,7 @@ import { AdminProductsComponent } from './admin/admin-products/admin-products.co
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { LoginComponent } from './login/login.component';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -57,6 +61,8 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
   imports: [
 
   BrowserModule,
+  FormsModule,
+  CustomFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -71,6 +77,11 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
       { path: 'order-success', component: OrderSuccessComponent , canActivate: [ AuthGaurdService ] },
       { path: 'my/orders', component: MyOrdersComponent , canActivate: [ AuthGaurdService ]},
 
+      {
+        path: 'admin/products/new',
+         component: ProductFormComponent,
+          canActivate: [ AuthGaurdService, AdminAuthGaurdService ]
+         },
       {
          path: 'admin/products',
           component: AdminProductsComponent,
@@ -88,7 +99,9 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
     AuthService,
     AuthGaurdService,
     UserService,
-    AdminAuthGaurdService
+    AdminAuthGaurdService,
+    CategoryService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })
